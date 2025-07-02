@@ -11,6 +11,8 @@
     padding: 0;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    transition: .2s ease-in-out;
 }
 
 body {
@@ -41,7 +43,16 @@ nav {
     font-size: 1.3rem;
     font-weight: 900;
     font-family: 'El Messiri' !important;
-    
+    text-decoration: none;
+    color: #000;
+}
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    opacity: 0.5;
 }
 
 .nav-link {

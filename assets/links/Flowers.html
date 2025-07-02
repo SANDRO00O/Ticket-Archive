@@ -1,45 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon...</title>
-    <style>
-        @font-face {
-            font-family: 'El Messiri';
-            src: url('/assets/fonts/ElMessiri-VariableFont_wght.ttf') format('truetype');
-            font-weight: 400;
-        }
-        
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-            font-family: 'El Messiri';
-        }
-        
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100%;
-            background: #f9f9f7;
-            color: #000;
-            text-align: center;
-            overflow: hidden;
-            
-        }
-        
-        h1 {
-            font-size: 1.5rem;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flowers</title>
+  <link rel="stylesheet" href="/assets/css/style.css" type="text/css" media="all" />
+  <style>
+  body{
+    background-color: #fcfbf6 !important;
+  }
+  </style>
 </head>
-
 <body>
-    <h1 class="message">COMING SOON...</h1>
-</body>
+  <header>
+    <nav>
+      <a href="https://karrarnazim.netlify.app" class="nav-link">Contact</a>
+      <a class="site-title" href="/index.html">Ticket Archive</a>
+      <a href="assets/links/Flowers.html" class="nav-link">Flowers</a>
+    </nav>
+  </header>
 
+  <main>
+    <div class="ticket-container" id="gallery"></div>
+  </main>
+
+  <footer>
+    <p>- The end -</p>
+  </footer>
+
+<script>
+  const gallery = document.getElementById('gallery');
+  const addedImages = new Set(); // لتخزين الصور المضافة
+
+  // إنشاء observer للتحميل الكسول
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.src = img.dataset.src;
+        img.removeAttribute('data-src');
+        obs.unobserve(img);
+      }
+    });
+  }, {
+    rootMargin: '100px',
+    threshold: 0.1
+  });
+
+  // جلب روابط الصور كلها مرة واحدة
+  fetch('load_Flowers_images.php')
+    .then(res => res.json())
+    .then(images => {
+      images.forEach(src => {
+        // تحقق إذا الصورة مضافة سابقا
+        if (!addedImages.has(src)) {
+          addedImages.add(src);
+
+          const img = document.createElement('img');
+          img.dataset.src = src;
+          img.alt = 'Concert Ticket';
+          img.className = 'ticket';
+          img.src = ''; // تحميل كسول
+          gallery.appendChild(img);
+          observer.observe(img);
+        }
+      });
+    });
+</script>
+</body>
 </html>
