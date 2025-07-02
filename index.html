@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ticket Archive</title>
+  <link rel="stylesheet" href="assets/css/style.css" type="text/css" media="all" />
+  <style>
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="https://karrarnazim.netlify.app" class="nav-link">Contact</a>
+      <h1 class="site-title">Ticket Archive</h1>
+      <a href="assets/links/Flowers.html" class="nav-link">Flowers</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="ticket-container" id="gallery"></div>
+  </main>
+
+  <footer>
+    <p>- The end -</p>
+  </footer>
+
+  <script>
+    const gallery = document.getElementById('gallery');
+
+    // تحميل روابط الصور كلها
+    fetch('load_images.php')
+      .then(res => res.json())
+      .then(images => {
+        images.forEach(src => {
+          const img = document.createElement('img');
+          img.dataset.src = src;         // نضع الرابط في dataset (لتحميل كسول)
+          img.alt = 'Concert Ticket';
+          img.className = 'ticket';
+          img.src = '';                 // src فارغ (حتى لا يحمل الصورة فورًا)
+          gallery.appendChild(img);
+        });
+
+        // استخدام Intersection Observer للتحميل الكسول
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.dataset.src;    // عند ظهور الصورة نغير src لتحميلها
+              observer.unobserve(img);      // إيقاف مراقبة الصورة بعد تحميلها
+            }
+          });
+        }, {
+          rootMargin: '100px', // يبدأ التحميل قبل ظهور الصورة بقليل
+          threshold: 0.1
+        });
+
+        // نراقب كل صورة
+        document.querySelectorAll('img.ticket').forEach(img => {
+          observer.observe(img);
+        });
+      });
+  </script>
+</body>
+</html>

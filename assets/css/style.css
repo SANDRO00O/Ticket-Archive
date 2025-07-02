@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+@font-face {
+    font-family: 'El Messiri';
+    src: url('/assets/fonts/ElMessiri-VariableFont_wght.ttf') format('truetype');
+    font-weight: 400;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Montserrat';
+    background: #f9f9f7;
+    color: #000;
+}
+
+/* Header Styles */
+header {
+    background-color: whitesmoke;
+    padding: 1.5rem 1rem;
+    width: 100%;
+    top: 0;
+    border-bottom: 1px solid #EEEEEE;
+    position: fixed;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.site-title {
+    font-size: 1.3rem;
+    font-weight: 900;
+    font-family: 'El Messiri' !important;
+    
+}
+
+.nav-link {
+    color: #000;
+    text-decoration: none;
+    font-size: calc(1.3rem / 1.618);
+}
+
+/* Main Content */
+main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.ticket-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+    
+}
+
+.ticket {
+    width: 100%;
+    border-radius: 0;
+    display: block;
+    transition: transform 0.3s ease;
+    background: #ddd;
+}
+
+.ticket:hover {
+    transform: scale(1.02);
+}
+
+/* Footer */
+footer {
+    position: relative;
+    bottom: 0;
+    text-align: center;
+    padding: 1.5rem;
+    color: #666;
+    font-size: 0.875rem;
+    width: 100%;
+    font-family: 'Montserrat';
+}
+
+/* Responsive Design */
