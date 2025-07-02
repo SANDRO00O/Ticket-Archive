@@ -15,10 +15,11 @@
     transition: .2s ease-in-out;
 }
 
-body {
+html, body {
     font-family: 'Montserrat';
     background: #f9f9f7;
     color: #000;
+    overflow-x: hidden;
 }
 
 /* Header Styles */
