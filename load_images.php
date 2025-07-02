@@ -9,5 +9,9 @@ foreach ($files as $file) {
     $images[] = $folder . $filename;
 }
 
+// إزالة التكرار
+$images = array_unique($images);
+
 header('Content-Type: application/json');
-echo json_encode($images);
+echo json_encode(array_values($images)); // reset indexes
+?>

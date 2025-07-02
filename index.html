@@ -27,41 +27,44 @@
     <p>- The end -</p>
   </footer>
 
-  <script>
-    const gallery = document.getElementById('gallery');
+<script>
+  const gallery = document.getElementById('gallery');
+  const addedImages = new Set(); // لتخزين الصور المضافة
 
-    // تحميل روابط الصور كلها
-    fetch('load_images.php')
-      .then(res => res.json())
-      .then(images => {
-        images.forEach(src => {
+  // إنشاء observer للتحميل الكسول
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.src = img.dataset.src;
+        img.removeAttribute('data-src');
+        obs.unobserve(img);
+      }
+    });
+  }, {
+    rootMargin: '100px',
+    threshold: 0.1
+  });
+
+  // جلب روابط الصور كلها مرة واحدة
+  fetch('load_images.php')
+    .then(res => res.json())
+    .then(images => {
+      images.forEach(src => {
+        // تحقق إذا الصورة مضافة سابقا
+        if (!addedImages.has(src)) {
+          addedImages.add(src);
+
           const img = document.createElement('img');
-          img.dataset.src = src;         // نضع الرابط في dataset (لتحميل كسول)
+          img.dataset.src = src;
           img.alt = 'Concert Ticket';
           img.className = 'ticket';
-          img.src = '';                 // src فارغ (حتى لا يحمل الصورة فورًا)
+          img.src = ''; // تحميل كسول
           gallery.appendChild(img);
-        });
-
-        // استخدام Intersection Observer للتحميل الكسول
-        const observer = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const img = entry.target;
-              img.src = img.dataset.src;    // عند ظهور الصورة نغير src لتحميلها
-              observer.unobserve(img);      // إيقاف مراقبة الصورة بعد تحميلها
-            }
-          });
-        }, {
-          rootMargin: '100px', // يبدأ التحميل قبل ظهور الصورة بقليل
-          threshold: 0.1
-        });
-
-        // نراقب كل صورة
-        document.querySelectorAll('img.ticket').forEach(img => {
           observer.observe(img);
-        });
+        }
       });
-  </script>
+    });
+</script>
 </body>
 </html>
